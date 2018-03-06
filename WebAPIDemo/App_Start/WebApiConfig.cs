@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebApiContrib.Formatting.Jsonp;
 
 namespace WebAPIDemo
@@ -40,6 +41,9 @@ namespace WebAPIDemo
 
             config.Formatters.Add(new CustomJsonFormatter());
 
+            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
             // Uncomment if the JSON is required by default while accessing form browser, but it will only returns JSON
             //config.Formatters.Remove(config.Formatters.XmlFormatter);
 
@@ -51,8 +55,8 @@ namespace WebAPIDemo
             //config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             //config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
-            var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
-            config.Formatters.Insert(0, jsonpFormatter);
+            //var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
+            //config.Formatters.Insert(0, jsonpFormatter);
         }
     }
 }
