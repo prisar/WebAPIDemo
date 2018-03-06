@@ -10,17 +10,25 @@ namespace WebAPIDemo.Controllers
 {
     public class EmployeesController : ApiController
     {
-        [HttpGet]
-        public IEnumerable<Employee> LoadAllEmployees()
+        public HttpResponseMessage Get(string gender = "All")
         {
             using (EmployeeDBEntities entites = new EmployeeDBEntities())
             {
-                return entites.Employees.ToList();
+                switch (gender.ToLower())
+                {
+                    case "all":
+                        return Request.CreateResponse(HttpStatusCode.OK, entites.Employees.ToList());
+                    case "male":
+                        return Request.CreateResponse(HttpStatusCode.OK, entites.Employees.Where(e => e.Gender.ToLower() == "Male").ToList());
+                    case "female":
+                        return Request.CreateResponse(HttpStatusCode.OK, entites.Employees.Where(e => e.Gender.ToLower() == "Female").ToList());
+                    default:
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Value for gender must be All, Male or Female. " + gender + " is invalid.");
+                }
             }
         }
 
-        [HttpGet]
-        public HttpResponseMessage LoadEmployeeById(int id)
+        public HttpResponseMessage Get(int id)
         {
             using (EmployeeDBEntities entites = new EmployeeDBEntities())
             {
