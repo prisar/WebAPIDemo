@@ -39,10 +39,12 @@ namespace WebAPIDemo
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.Add(new CustomJsonFormatter());
+            //config.Formatters.Add(new CustomJsonFormatter());
 
             EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
+
+            //config.Filters.Add(new RequireHttpsAttribute());
 
             // Uncomment if the JSON is required by default while accessing form browser, but it will only returns JSON
             //config.Formatters.Remove(config.Formatters.XmlFormatter);
