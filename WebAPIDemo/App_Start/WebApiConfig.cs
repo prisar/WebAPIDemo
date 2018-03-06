@@ -2,10 +2,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace WebAPIDemo
 {
+    public class CustomJsonFormatter : JsonMediaTypeFormatter
+    {
+        public CustomJsonFormatter()
+        {
+            this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+        }
+
+        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+        {
+            base.SetDefaultContentHeaders(type, headers, mediaType);
+            headers.ContentType = new MediaTypeHeaderValue("application/json");
+        }
+    }
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -21,8 +37,18 @@ namespace WebAPIDemo
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.Add(new CustomJsonFormatter());
+
+            // Uncomment if the JSON is required by default while accessing form browser, but it will only returns JSON
+            //config.Formatters.Remove(config.Formatters.XmlFormatter);
+
+            //only XML is returned from Web API service
+            //config.Formatters.Remove(config.Formatters.JsonFormatter);
+
+            //config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+
+            //config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }
