@@ -11,7 +11,7 @@
             $("#btn").click(function () {
                 $.ajax({
                     type: 'GET',
-                    url: 'api/Employees',
+                    url: 'http://localhost:61116/api/Employees',
                     dataType: 'jsonp',
                     success: function (data) {
                         ulEmployees.empty();
@@ -31,7 +31,7 @@
 </head>
 <body>
     <input id="btn" type="button" value="Get All Employess" />
-    <input id="btnClear" type="button" value="Clear"/>
+    <input id="btnClear" type="button" value="Clear" />
     <ul id="ulEmployees"></ul>
 </body>
 </html>
