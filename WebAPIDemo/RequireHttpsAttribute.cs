@@ -16,7 +16,7 @@ namespace WebAPIDemo
             if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
             {
                 actionContext.Response = actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Found);
-                actionContext.Request.Content = new StringContent("<p>Use HTTPS instead of HTTP</p>", Encoding.UTF8, "text/html");
+                actionContext.Response.Content = new StringContent("<p>Use HTTPS instead of HTTP</p>", Encoding.UTF8, "text/html");
 
                 UriBuilder uriBuilder = new UriBuilder(actionContext.Request.RequestUri);
                 uriBuilder.Scheme = Uri.UriSchemeHttps;

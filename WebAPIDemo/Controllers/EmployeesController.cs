@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -12,12 +13,14 @@ namespace WebAPIDemo.Controllers
     [EnableCorsAttribute("*", "*", "*")]
     public class EmployeesController : ApiController
     {
-        [RequireHttps]
+        [BasicAuthentication]
         public HttpResponseMessage Get(string gender = "All")
         {
             using (EmployeeDBEntities entites = new EmployeeDBEntities())
             {
-                switch (gender.ToLower())
+                string username = Thread.CurrentPrincipal.Identity.Name;
+
+                switch (username.ToLower())
                 {
                     case "all":
                         return Request.CreateResponse(HttpStatusCode.OK, entites.Employees.ToList());
@@ -26,7 +29,7 @@ namespace WebAPIDemo.Controllers
                     case "female":
                         return Request.CreateResponse(HttpStatusCode.OK, entites.Employees.Where(e => e.Gender.ToLower() == "Female").ToList());
                     default:
-                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Value for gender must be All, Male or Female. " + gender + " is invalid.");
+                        return Request.CreateResponse(HttpStatusCode.BadRequest);
                 }
             }
         }
