@@ -55,11 +55,11 @@
                             </button>
                         </div>
                     </div>
-                    <div id="divError" class="alert alert-danger collapse">
-                        <a id="linkClose" class="close" herf="#">&times;</a>
-                        <div id="divErrorText"></div>
-                    </div>
                 </div>
+            </div>
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" class="close" herf="#">&times;</a>
+                <div id="divErrorText"></div>
             </div>
         </div>
     </div>
@@ -78,15 +78,15 @@
                     method: 'POST',
                     contentType: 'application/json',
                     data: {
-                        Email: $('#txtUsername').val(),
+                        UserName: $('#txtUsername').val(),
                         Password: $('#txtPassword').val(),
                         grant_type: 'password'
                     },
-                    success: function () {
+                    success: function (response) {
                         $('#divErrorText').text(JSON.stringify(response));
                         $('#divError').show('fade');
                     },
-                    error: function () {
+                    error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseText);
                         $('#divError').show('fade');
                     }

@@ -60,11 +60,11 @@
                             </button>
                         </div>
                     </div>
-                    <div id="divError" class="alert alert-danger collapse">
-                        <a id="linkClose" class="close" herf="#">&times;</a>
-                        <div id="divErrorText"></div>
-                    </div>
                 </div>
+            </div>
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" class="close" herf="#">&times;</a>
+                <div id="divErrorText"></div>
             </div>
         </div>
     </div>
@@ -89,9 +89,9 @@
                     success: function () {
                         $('#successModal').modal('show');
                     },
-                    error: function () {
+                    error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show();
+                        $('#divError').show('fade');
                     }
                 });
             });
