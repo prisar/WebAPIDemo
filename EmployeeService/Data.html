@@ -9,11 +9,12 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="well">
             <input type="button" id="btnLoadEmployees" class="btn btn-success" value="Load Employees" />
+            <input type="button" id="btnLogoff" class="btn btn-success pull-right" value="Log Off" />
         </div>
         <div class="well hidden" id="divData">
             <table class="table table-bordered" id="tblData">
                 <thead>
-                    <tr>
+                    <tr class="success">
                         <th>Id</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -56,9 +57,14 @@
     <script src="Scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            if (sessionStorage.getItem('accessToken') == null) {
+            if (localStorage.getItem('accessToken') == null) {
                 window.location.href = 'Login.html';
             }
+
+            $('#btnLogoff').click(function () {
+                localStorage.removeItem('accessToken');
+                window.location.href = 'Login.html';
+            });
 
             $('#errorModal').on('hidden.bs.modal', function () {
                 window.location.href = 'Login.html';
@@ -74,11 +80,11 @@
                     method: 'GET',
                     contentType: 'application/json',
                     headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken'),
+                        'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
                     },
                     success: function (data) {
                         $('#divData').removeClass('hidden');
-                        $('#tblData').empty();
+                        $('#tblBody').empty();
                         $.each(data, function (index, value) {
                             var row = $('<tr><td>' + value.ID + '</td><td>'
                                 + value.FirstName + '</td><td>'
