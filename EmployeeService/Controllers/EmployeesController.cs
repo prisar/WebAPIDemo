@@ -7,9 +7,9 @@ using System.Web.Http;
 
 namespace EmployeeService.Controllers
 {
+    [Authorize]
     public class EmployeesController : ApiController
     {
-        [Authorize]
         public IEnumerable<Employee> Get()
         {
             using (EmployeeDBEntities entites = new EmployeeDBEntities())
